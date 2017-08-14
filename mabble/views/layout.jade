@@ -39,8 +39,14 @@ head
 		#person{
 		width: 85px;
 		height: 85px;
-		margin-bottom: 50px;
+		margin-bottom: 20px;
 		border-radius: 50%;
+		}
+		.icon-user{
+			font-size:200%;
+		}
+		.icon-cross2{
+			font-size:200%;			
 		}
 #fh5co-page
 	a.js-fh5co-nav-toggle.fh5co-nav-toggle(href='#')
@@ -49,19 +55,62 @@ head
 		h1#fh5co-logo
 			a(href='index.html') Marble
 		nav#fh5co-main-menu(role='navigation')
-			ul
-				li.fh5co-active
-					a(href='index.html') Home
-				li
-					a(href='blog.html') Blog
-				li
-					a(href='portfolio.html') Portfolio
-				li
-					a(href='about.html') About
-				li
-					a(href='contact.html') Contact
+
+			- var data = menu
+			case data
+				when 0
+					ul
+						li.fh5co-active
+							a(href='/') Home
+						li
+							a(href='/blog') Blog
+						li
+							a(href='/portfolio') Portfolio
+						li
+							a(href='/about') About						
+				when 1
+					ul
+						li
+							a(href='/') Home
+						li.fh5co-active
+							a(href='/blog') Blog
+						li
+							a(href='/portfolio') Portfolio
+						li
+							a(href='/about') About					
+				when 2
+					ul
+						li
+							a(href='/') Home
+						li
+							a(href='/blog') Blog
+						li.fh5co-active
+							a(href='/portfolio') Portfolio
+						li
+							a(href='/about') About						
+				when 3
+					ul
+						li
+							a(href='/') Home
+						li
+							a(href='/blog') Blog
+						li
+							a(href='/portfolio') Portfolio
+						li.fh5co-active
+							a(href='/about') About										
 		.fh5co-footer
-			img#person(src='images/img-2.jpg')
+			a(href='/info')
+				img#person(src='images/img-2.jpg')
+
+			ul
+				li
+					a(href='#' title='info')
+						i.icon-user
+				li
+					a(href='#' title='logout')
+						i.icon-cross2
+			br
+
 			ul
 				li
 					a(href='#')
