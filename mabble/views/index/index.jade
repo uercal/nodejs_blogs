@@ -1,4 +1,4 @@
-include ../layout.jade
+include ./layout.jade
 
 #fh5co-main
   aside#fh5co-hero.js-fullheight
@@ -163,3 +163,21 @@ script(src='js/jquery.waypoints.min.js')
 script(src='js/jquery.flexslider-min.js')
 // MAIN JS
 script(src='js/main.js')
+script.
+  $(function(){
+    console.log($('#ip').text());
+    if($('#ip').text()!=''){
+
+    }else{
+      $.get('https://api.ipify.org?format=json')
+            .done(function (data) {
+              //- swal(data.ip);
+              $.post('/saveIp',{ip:data.ip},function(res){
+                if(res=='ok'){
+                  $('#ip').html(data.ip);
+                }
+              })              
+            })
+    }
+     
+  });

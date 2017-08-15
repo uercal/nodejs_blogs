@@ -30,6 +30,11 @@ head
 	link(rel='stylesheet', href='css/flexslider.css')
 	// Theme style
 	link(rel='stylesheet', href='css/style.css')
+		
+	link(rel='stylesheet', type='text/css', href='sweetalert2/dist/sweetalert2.min.css')
+	script(src='sweetalert2/dist/sweetalert2.min.js')
+	
+
 	// Modernizr JS
 	script(src='js/modernizr-2.6.2.min.js')
 	// FOR IE9 below
@@ -99,16 +104,26 @@ head
 						li.fh5co-active
 							a(href='/about') About										
 		.fh5co-footer
-			a(href='/info')
-				img#person(src='images/img-2.jpg')
+			
 
-			ul
-				li
-					a(href='/info' title='info')
-						i.icon-user
-				li
-					a(href='/logout' title='logout')
-						i.icon-cross2
+			- var type = type;
+			 case type
+				when 'c'
+					p Welcome Customer by:				
+					p#ip #{code}
+					ul
+						li
+							a#login(href='javascript:;' title='info')
+								i.icon-user				
+				when 'u'
+					img#person(src='images/img-2.jpg' title='admin')
+					ul
+						li
+							a(href='/main' title='info')
+								i.icon-user
+						li
+							a(href='/logout' title='logout')
+								i.icon-cross2
 			br
 
 			ul

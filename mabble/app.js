@@ -21,7 +21,7 @@ var multipart = require('connect-multiparty');
 
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var main = require('./routes/main');
 
 var app = express();
 
@@ -46,25 +46,25 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //配置Session中间件
 app.use(session({
-  //必要
-  resave:false,
-  saveUninitialized:true,
-  //
-  secret: setting.cookieSecret,
-  key: setting.key,
-  cookie:{ maxAge: 1000 * 60 * 60 },//1 day
-  store: new MongoStore({
-    db: setting.db,
-    host: setting.host,
-    port: setting.port
-  })
+    //必要
+    resave: false,
+    saveUninitialized: true,
+    //
+    secret: setting.cookieSecret,
+    key: setting.key,
+    cookie: { maxAge: 1000 * 60 * 60 }, //1 day
+    store: new MongoStore({
+        db: setting.db,
+        host: setting.host,
+        port: setting.port
+    })
 }));
 
 
 
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/main', main);
 
 
 
@@ -72,21 +72,21 @@ app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  // next(err);
-  res.send('该页面不存在');
+    var err = new Error('Not Found');
+    err.status = 404;
+    // next(err);
+    res.send('该页面不存在');
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 module.exports = app;
