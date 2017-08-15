@@ -1,4 +1,8 @@
-//游客模式 下是否已获取客户端ip
+var url = require('url');
+
+
+
+//游客模式 下是否已获取客户端ip [游客评论时候必用！！！]
 module.exports.isIpSaved = function(req, res, next) {
     if (req.cookies.ip) {
         next();
@@ -9,69 +13,112 @@ module.exports.isIpSaved = function(req, res, next) {
 
 
 //主页
-module.exports.Index = function(req, res, next) {
-    //是否用户登录
-    if (req.session.user) {
-        //用户
-        res.render('index/index', {
-            title: 'Index',
-            menu: 0,
-            type: 'u',
-            code: req.session.user.username
+module.exports.Index = function(u, req, res, next) {
+    res.render('index/index', {
+        title: 'Index',
+        menu: 0,
+        type: 'u',
+        code: req.session.user.username
+    })
 
-        });
-    } else {
-        //游客
-        res.render('index/index', {
-            title: 'Index',
-            menu: 0,
-            type: 'c',
-            code: req.cookies.ip
-        });
-
-    }
-};
+}
 
 
 //blog展示页面
 module.exports.Blog = function(req, res, next) {
-    //是否用户登录
-    if (req.session.user) {
-        //用户
-        res.render('index/blog', {
-            title: 'Blog',
-            menu: 1,
-            data: ['u', req.session.user.username]
-        });
-    } else {
-        //游客
-        res.render('index/blog', {
-            title: 'Blog',
-            menu: 1,
-            data: ['c', req.cookies.ip]
-        });
 
-    }
+    res.render('index/blog', {
+        title: 'Blog',
+        menu: 1,
+        type: 'u',
+        coade: req.session.user.username
+    });
+
 };
 
 
+//PoPortfolio
+module.exports.Portfolio = function(req, res, next) {
+    res.render('index/portfolio', {
+        title: 'Portfolio',
+        menu: 2,
+        type: 'u',
+        coade: req.session.user.username
+    });
+}
+
+
+//About
+module.exports.About = function(req, res, next) {
+    res.render('index/about', {
+        title: 'About',
+        menu: 3,
+        code: req.cookies.ip
+    });
+}
 
 
 
 
 
 
-//游客or用户
-module.exports.isUser = function(req, res, next) {
-    if (req.session.user) {
-        //用户
-        next();
-    } else {
-        //游客
-        if (req.cookies.ip) {
+
+//游客中间件
+module.exports.isUser = {
+    index: function(req, res, next) {
+        if (req.session.user) {
+            //用户        
             next();
         } else {
-            res.redirect('/');
+            //游客                          
+            res.render('index/index', {
+                title: 'Index',
+                menu: 0,
+                type: 'c',
+                code: req.cookies.ip
+            })
+        }
+    },
+    blog: function(req, res, next) {
+        if (req.session.user) {
+            //用户        
+            next();
+        } else {
+            //游客
+            res.render('index/blog', {
+                title: 'Blog',
+                menu: 1,
+                type: 'c',
+                code: req.cookies.ip
+            })
+        }
+    },
+    portfolio: function(req, res, next) {
+        if (req.session.user) {
+            //用户        
+            next();
+        } else {
+            //游客
+            res.render('index/portfolio', {
+                title: 'Portfolio',
+                menu: 2,
+                type: 'c',
+                code: req.cookies.ip
+            })
+        }
+    },
+    about: function(req, res, next) {
+        if (req.session.user) {
+            //用户        
+            next();
+        } else {
+            //游客
+            res.render('index/about', {
+                title: 'About',
+                menu: 3,
+                type: 'c',
+                code: req.cookies.ip
+            })
         }
     }
 }

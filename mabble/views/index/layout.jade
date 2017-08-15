@@ -19,7 +19,6 @@ head
 	meta(name='twitter:card', content='')
 	// Place favicon.ico and apple-touch-icon.png in the root directory
 	link(rel='shortcut icon', href='favicon.ico')
-	link(href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700', rel='stylesheet')
 	// Animate.css
 	link(rel='stylesheet', href='css/animate.css')
 	// Icomoon Icon Fonts
@@ -30,11 +29,15 @@ head
 	link(rel='stylesheet', href='css/flexslider.css')
 	// Theme style
 	link(rel='stylesheet', href='css/style.css')
-		
-	link(rel='stylesheet', type='text/css', href='sweetalert2/dist/sweetalert2.min.css')
-	script(src='sweetalert2/dist/sweetalert2.min.js')
-	
-
+	//- link(rel='stylesheet', type='text/css', href='sweetalert2/dist/sweetalert2.min.css')
+	//- script(src='sweetalert2/dist/sweetalert2.min.js')
+	//flavr
+	link(rel='stylesheet', href='flavr/css/bootstrap.min.css')
+	link(rel='stylesheet', href='flavr/css/style.css')
+	link(rel='stylesheet', href='flavr/css/animate.css')
+	link(rel='stylesheet', href='flavr/css/flavr.css')
+	script(src='flavr/js/jquery.min.js')
+	script(src='flavr/js/flavr.min.js')
 	// Modernizr JS
 	script(src='js/modernizr-2.6.2.min.js')
 	// FOR IE9 below
@@ -53,6 +56,13 @@ head
 		.icon-cross2{
 			font-size:200%;			
 		}
+		.icon-user-add{
+			font-size:200%;
+		}
+		.icon-user-outline{
+			font-size:200%;
+		}
+			
 #fh5co-page
 	a.js-fh5co-nav-toggle.fh5co-nav-toggle(href='#')
 		i
@@ -104,17 +114,18 @@ head
 						li.fh5co-active
 							a(href='/about') About										
 		.fh5co-footer
-			
-
-			- var type = type;
-			 case type
+			- var user = type
+			case user
 				when 'c'
-					p Welcome Customer by:				
+					p Welcome Customer by:	
 					p#ip #{code}
 					ul
 						li
-							a#login(href='javascript:;' title='info')
-								i.icon-user				
+							a#login(href='javascript:;' title='login')
+								i.icon-user-outline
+						li
+							a#regist(href='javascript:;' title='reg')
+								i.icon-user-add
 				when 'u'
 					img#person(src='images/img-2.jpg' title='admin')
 					ul
@@ -125,7 +136,7 @@ head
 							a(href='/logout' title='logout')
 								i.icon-cross2
 			br
-
+			
 			ul
 				li
 					a(href='#')
