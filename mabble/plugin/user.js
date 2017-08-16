@@ -1,6 +1,9 @@
-var url = require('url');
-
-
+//加载模型
+var modelUser = require('../model/user');
+//加载加密模块
+var utility = require('utility');
+//加载生成随机模块
+var uuid = require('node-uuid');
 
 //游客模式 下是否已获取客户端ip [游客评论时候必用！！！]
 module.exports.isIpSaved = function(req, res, next) {
@@ -13,12 +16,12 @@ module.exports.isIpSaved = function(req, res, next) {
 
 
 //主页
-module.exports.Index = function(u, req, res, next) {
+module.exports.Index = function(req, res, next) {
     res.render('index/index', {
         title: 'Index',
         menu: 0,
         type: 'u',
-        code: req.session.user.username
+        code: req.session.user
     })
 
 }
@@ -31,7 +34,7 @@ module.exports.Blog = function(req, res, next) {
         title: 'Blog',
         menu: 1,
         type: 'u',
-        coade: req.session.user.username
+        coade: req.session.user
     });
 
 };
@@ -43,7 +46,7 @@ module.exports.Portfolio = function(req, res, next) {
         title: 'Portfolio',
         menu: 2,
         type: 'u',
-        coade: req.session.user.username
+        coade: req.session.user
     });
 }
 
@@ -53,9 +56,69 @@ module.exports.About = function(req, res, next) {
     res.render('index/about', {
         title: 'About',
         menu: 3,
-        code: req.cookies.ip
+        type: 'u',
+        coade: req.session.user
     });
 }
+
+
+
+
+//POST:注册/登录
+module.exports.Regist = function(req, res, next) {
+    var username = req.body.username;
+    var password = req.body.password;
+    var salt = uuid.v4();
+    // console.log(salt);
+    var postData = {
+        username: username,
+        salt: salt,
+        hashword: utility.sha1(password + salt),
+        created: Date.now()
+    };
+    //
+    var resJson = {
+        msg: '',
+        state: false
+    };
+    //
+    modelUser.findOne({
+        username: username
+    }, function(err, data) {
+        if (err) console.log(err);
+        if (data) {
+            //
+            resJson.msg = '用户名已存在';
+            res.send(resJson);
+        } else {
+            //
+            modelUser.create(postData, function(err) {
+                if (err) console.log(err);
+                resJson.msg = '注册成功';
+                resJson.state = true;
+                //
+                req.session.user = username;
+
+                res.send(resJson);
+            });
+        }
+    })
+}
+
+
+module.exports.Login = function(req, res, next) {
+    var password = req.body.password;
+    var salt = uuid.v4();
+    console.log(salt);
+    // var data = {
+    //     username: req.body.username,
+
+    // }
+}
+
+
+
+
 
 
 

@@ -24,18 +24,84 @@ script.
             });
     };
   });
+
   $('#login').on('click',function(){
     var html ='<div class="form-row"><input type="text" name="username" placeholder="Username" /></div><div class="form-row"><input type="password" name="password" placeholder="Password" /></div><div class="form-row"><input type="checkbox" name="remember" id="check"/><label for="check">Remember me</label></div>';
     new $.flavr({
-    title:'Form',
+    title:'Login',
     iconPath:'flavr/images/',
-    icon:'email.png',
-    content:'Login for loving',
+    icon:'user.png',
+    content:'Welcome Back',
     dialog:'form',
-    form:{content:html,method:'post'},
-    onSubmit:function($container,$form){
-        alert($form.serialize());
-        return false;
+    animateEntrance:'pulse',
+    closeOverlay : true,
+    closeEsc : true,
+    form:{content:html},
+    buttons:{
+      Login:{
+        style:'info',
+        action:function($container,$form){
+          //- alert($form.serialize());          
+          var data = $form.serializeArray();
+          if(data[0]['value']==''){
+            $.flavr('用户名不能为空!');
+          }          
+          return false;
+        }
+      },
+      Cancle:{
+        style:'danger'
       }
-    });
+    }});
   })
+
+  $('#regist').on('click',function(){
+    var html ='<div class="form-row"><input type="text" name="username" placeholder="Username" /></div><div class="form-row"><input type="password" name="password" placeholder="Password"/></div><div class="form-row"><input type="password" name="repassword" placeholder="Password Again"/></div><div class="form-row"><input type="checkbox" name="remember" id="check"/><label for="check">Remember me</label></div>';
+    new $.flavr({
+    title:'Regist',
+    iconPath:'flavr/images/',
+    icon:'user-add.png',
+    content:'Welcome to join us',
+    dialog:'form',
+    closeOverlay : true,
+    closeEsc : true,
+    form:{content:html},
+    buttons:{
+      Regist:{
+        style:'info',
+        action:function($container,$form){
+          //- alert($form.serialize());          
+          var data = $form.serializeArray();         
+          if(data[0]['value']==''){
+            $.flavr('用户名不能为空!');
+          }
+          if(data[1]['value']!=data[2]['value']){
+            $.flavr('两次密码不一致!');
+          }else{
+            $.post('/regist',data,function(res){
+              //- alert(res.msg);
+              $.flavr({ content : 'Autoclosing the dialog in 5 seconds',
+                        autoclose : true, 
+                        timeout : 1000  ,
+                        buttons:{
+                          done:{
+                            action:function(){
+                              window.location.reload();
+                            }
+                          }
+                        },
+                        close:function(){
+                          window.location.reload();
+                        }});
+              console.log(res);
+            });
+          }
+          return false;
+        }
+      },
+      Cancle:{
+        style:'danger'
+      }
+    }});
+  });
+  

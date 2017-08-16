@@ -21,6 +21,20 @@ router.get('/about', pluginUser.isUser.about);
 router.get('/about', pluginUser.About);
 
 
+// 登录&注册
+
+router.post('/login', pluginUser.Login);
+
+router.post('/regist', pluginUser.Regist);
+
+
+
+//退出用户模式
+
+router.get('/logout', function(req, res, next) {
+    req.session.user = null;
+    res.redirect('/');
+});
 
 //保存ip (游客模式)
 router.post('/saveIp', function(req, res, next) {

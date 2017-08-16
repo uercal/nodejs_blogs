@@ -6,7 +6,9 @@ var userSchema = new mongoose.Schema({
         unique: true
     },
     salt: String,
-    hashword: String
+    hashword: String,
+    created: Date
 });
+
 
 module.exports = mongoose.model('user', userSchema);
