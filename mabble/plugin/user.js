@@ -85,7 +85,11 @@ module.exports.Regist = function(req, res, next) {
     modelUser.findOne({
         username: username
     }, function(err, data) {
-        if (err) console.log(err);
+        if (err) {
+            console.log(err);
+            resJson.msg = 'error';
+            res.send(resJson);
+        }
         if (data) {
             //
             resJson.msg = '用户名已存在';
@@ -93,13 +97,17 @@ module.exports.Regist = function(req, res, next) {
         } else {
             //
             modelUser.create(postData, function(err) {
-                if (err) console.log(err);
-                resJson.msg = '注册成功';
-                resJson.state = true;
-                //
-                req.session.user = username;
-
-                res.send(resJson);
+                if (err) {
+                    console.log(err);
+                    resJson.msg = 'regist-Error!';
+                    res.send(resJson);
+                } else {
+                    resJson.msg = '注册成功';
+                    resJson.state = true;
+                    //
+                    req.session.user = username;
+                    res.send(resJson);
+                }
             });
         }
     })
@@ -107,13 +115,43 @@ module.exports.Regist = function(req, res, next) {
 
 
 module.exports.Login = function(req, res, next) {
+    var username = req.body.username;
     var password = req.body.password;
-    var salt = uuid.v4();
-    console.log(salt);
-    // var data = {
-    //     username: req.body.username,
+    //
+    var resJson = {
+        msg: '',
+        state: false
+    };
+    //
+    modelUser.findOne({
+        username: username
+    }, function(err, data) {
+        if (err) {
+            console.log(err);
+            resJson.msg = 'error!';
+            res.send(resJson);
+        }
+        if (data) {
+            var salt = data.salt;
+            var hashword = data.hashword;
+            var _hashword = utility.sha1(password + salt);
+            if (hashword == _hashword) {
+                //密码匹配
+                req.session.user = username;
+                resJson.msg = '登录成功';
+                resJson.state = true;
+                res.send(resJson);
+            } else {
+                //密码错误
+                resJson.msg = '密码错误';
+                res.send(resJson);
+            }
+        } else {
+            resJson.msg = '用户不存在';
+            res.send(resJson);
+        }
+    })
 
-    // }
 }
 
 

@@ -45,7 +45,25 @@ script.
           var data = $form.serializeArray();
           if(data[0]['value']==''){
             $.flavr('用户名不能为空!');
-          }          
+          }else{
+            $.post('/login',data,function(res){
+              if(res.state){
+                $.flavr({
+                  content:res.msg,
+                  autoclose:true,
+                  timeout:2000,
+                  onShow:function(){
+                    window.location.reload();
+                  },
+                  onClose:function(){
+                    window.location.reload();
+                  }
+                })
+              }else{
+                $.flavr(res.msg);
+              }
+            })
+          }
           return false;
         }
       },
@@ -79,10 +97,10 @@ script.
             $.flavr('两次密码不一致!');
           }else{
             $.post('/regist',data,function(res){
-              //- alert(res.msg);
-              $.flavr({ content : 'Autoclosing the dialog in 5 seconds',
+              if(res.state){
+                $.flavr({ content : res.msg,
                         autoclose : true, 
-                        timeout : 1000  ,
+                        timeout : 2000  ,
                         buttons:{
                           done:{
                             action:function(){
@@ -90,9 +108,12 @@ script.
                             }
                           }
                         },
-                        close:function(){
+                        onShow:function(){
                           window.location.reload();
                         }});
+              }else{
+                $.flavr(res.msg);
+              }              
               console.log(res);
             });
           }
