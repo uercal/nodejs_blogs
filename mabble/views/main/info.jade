@@ -1,33 +1,18 @@
 include ./layout.jade
 
-
 #fh5co-main-content
 	.fh5co-post
-		.fh5co-entry.padding
-			img(src='images/project-1.jpg', title='Free HTML5 Bootstrap Template by FreeHTML5.co')
-			div
-				span.fh5co-post-date October 12, 2016
-				h2
-					a(href='single.html') How to be an effective web developer
-				p
-		.fh5co-entry.padding
-			img(src='images/project-2.jpg', alt='Free HTML5 Bootstrap Template by FreeHTML5.co')
-			div
-				span.fh5co-post-date October 12, 2016
-				h2
-					a(href='single.html') How to be an effective web developer
-				p How two simple exercises changed my life		
-		
-		.fh5co-entry.padding
-			img(src='images/project-2.jpg', alt='Free HTML5 Bootstrap Template by FreeHTML5.co')
-			div
-				span.fh5co-post-date October 12, 2016
-				h2
-					a(href='single.html') How to be an effective web developer
-				p How two simple exercises changed my life		
+		- var blogs = data
+		each val,index in blogs
+			.fh5co-entry.padding
+				img(src='images/project-1.jpg', title='Free HTML5 Bootstrap Template by FreeHTML5.co')
+				div
+					span.fh5co-post-date #{val.created}
+					h2
+						a(href='single.html') #{val.title}
+					p		
 		footer
 			div
-				&copy; 2016 Free HTML5. All Rights Reserved. More Templates
 
 .gototop.js-top
 	a.js-gotop(href='#')

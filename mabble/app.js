@@ -52,7 +52,7 @@ app.use(session({
     //
     secret: setting.cookieSecret,
     key: setting.key,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 }, //1 day
+    cookie: { maxAge: 1000 * 60 * 60 }, //1 day
     store: new MongoStore({
         db: setting.db,
         host: setting.host,

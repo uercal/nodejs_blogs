@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var pluginBlog = require('../plugin/blog');
 
 
-router.get('/', function(req, res, next) {
-    res.render('main/info', { title: 'Info' });
-});
+router.get('/', pluginBlog.getData);
 
 
 module.exports = router;
