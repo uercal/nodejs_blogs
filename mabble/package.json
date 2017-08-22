@@ -21,6 +21,7 @@
         "silly-datetime": "0.1.2",
         "connect-mongo": "0.8.2",
         "connect-multiparty": "2.0.0",
-        "node-uuid": "1.4.8"
+        "node-uuid": "1.4.8",
+        "fs": "*"
     }
 }

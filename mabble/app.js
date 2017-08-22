@@ -41,8 +41,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-//上传模块的设置
+//连接mongodb
 mongoose.connect('mongodb://localhost/mabble');
+
+//上传模块的设置
+app.use(multipart({ uploadDir: './public/temp' })); //设置上传文件存放的地址。
 
 //配置Session中间件
 app.use(session({

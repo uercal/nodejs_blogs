@@ -1,0 +1,55 @@
+
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    link(rel='stylesheet', href='../layui/css/layui.css', media='all')
+    title Document
+script(src='../js/jquery.min.js')
+script(src='../layui/layui.js')
+button#test1.layui-btn(type='button')
+    i.layui-icon &#xE67C;上传背景
+form#form(action="/main/addBlog" method="post" onsubmit="return false")
+    img#back(src="",style="width:200px;",path="")
+    br
+    input(type="text" name="title" placeholder="title")
+    br
+    textarea#content(name="content", cols="30", rows="10" placeholder="content")
+    br
+    input#sub(type="submit")
+script.
+    layui.use('upload', function(){
+    var upload = layui.upload;
+    
+    //执行实例
+    var uploadInst = upload.render({
+        elem: '#test1' //绑定元素
+        ,url: '/main/upload_pic' //上传接口
+        ,done: function(res){
+        //上传完毕回调        
+        $('#back').attr('src',res['src']);
+        $('#back').attr('path',res['path']);
+        }
+        ,error: function(){
+        //请求异常回调
+        }
+    });
+    });
+
+    $('#sub').on('click',function(){
+        var data = $('#form').serializeArray();
+        var img = {
+            name:"background",
+            value:$('#back').attr('path')
+        };
+        data.unshift(img);
+        console.log(data);
+        $.post('/main/addBlog',data,function(res){
+            if(res.state){
+                window.location.href = '/main';
+            }else{
+
+            }
+        })
+    });
