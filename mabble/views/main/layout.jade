@@ -27,6 +27,12 @@ head
 	link(rel='stylesheet', href='css/bootstrap.css')
 	// Theme style
 	link(rel='stylesheet', href='css/style2.css')
+	//
+	//flavr
+	link(rel='stylesheet', href='flavr/css/bootstrap.min.css')
+	link(rel='stylesheet', href='flavr/css/style.css')
+	link(rel='stylesheet', href='flavr/css/animate.css')
+	link(rel='stylesheet', href='flavr/css/flavr.css')
 	// Modernizr JS
 	script(src='js/modernizr-2.6.2.min.js')
 	// FOR IE9 below
@@ -39,8 +45,13 @@ head
 		nav(role='navigation')
 			ul
 				li
-					a(href='/')
+					a(href='/' title='Home')
 						i.icon-home
+			&nbsp;		
+			ul
+				li
+					a(href='/main/add' title='Add' id="add")
+						i.icon-plus			
 		.featured
 			span admin
 			h2 Uercal
