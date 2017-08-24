@@ -62,6 +62,29 @@ module.exports.postBlog = function(req, res, next) {
 }
 
 
+module.exports.getDetail = function(req, res, next) {
+    var id = req.params.id;
+    blogModel.findOne({
+        _id: id
+    }, function(err, data) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        res.render('main/detail', {
+            blog: data
+        });
+    })
+}
+
+
+
+
+
+
+
+
+
 //上传背景图片等接口
 module.exports.upload_pic = function(req, res, next) {
 

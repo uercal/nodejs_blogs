@@ -11,6 +11,7 @@ router.get('/add', function(req, res, next) {
     res.render('main/add');
 });
 
+router.get('/detail/:id', pluginBlog.getDetail);
 
 router.post('/upload_pic', multipartMiddleware, pluginBlog.upload_pic);
 

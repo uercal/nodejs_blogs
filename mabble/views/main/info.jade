@@ -1,5 +1,24 @@
 include ./layout.jade
 
+.fh5co-loader
+#page
+	#fh5co-aside(style='background-image: url(/images/image_1.jpg)')
+		.overlay
+		nav(role='navigation')
+			ul
+				li
+					a(href='/' title='Home')
+						i.icon-home
+			br
+			ul
+				li
+					a(href='/main/add' title='Add' id="add")
+						i.icon-plus
+		.featured
+			span admin
+			h2 Uercal
+
+
 #fh5co-main-content
 	.fh5co-post
 		- var blogs = data
@@ -9,7 +28,7 @@ include ./layout.jade
 				div
 					span.fh5co-post-date #{val.created}
 					h2
-						a(href='single.html') #{val.title}
+						a(href='/main/detail/#{val._id}') #{val.title}
 					p
 		footer
 			div
