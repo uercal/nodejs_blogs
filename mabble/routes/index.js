@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var pluginUser = require('../plugin/user');
+var pluginBlog = require('../plugin/blog');
 
 
 /* GET home page. */
@@ -9,6 +10,7 @@ router.get('/', pluginUser.isUser.index);
 router.get('/', pluginUser.Index);
 
 
+// router.get('/blog', pluginBlog.getRencet);
 router.get('/blog', pluginUser.isUser.blog);
 router.get('/blog', pluginUser.Blog);
 
@@ -42,8 +44,5 @@ router.post('/saveIp', function(req, res, next) {
     res.cookie('ip', ip, { maxAge: 60 * 1000 * 60 }); //1 hour
     res.send('ok');
 });
-
-
-
 
 module.exports = router;

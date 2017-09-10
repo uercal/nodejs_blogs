@@ -1,5 +1,8 @@
 //加载模型
 var modelUser = require('../model/user');
+var blogModel = require('../model/blog');
+//
+var pluginBlog = require('./blog');
 //加载加密模块
 var utility = require('utility');
 //加载生成随机模块
@@ -29,13 +32,21 @@ module.exports.Index = function(req, res, next) {
 
 //blog展示页面
 module.exports.Blog = function(req, res, next) {
-
-    res.render('index/blog', {
-        title: 'Blog',
-        menu: 1,
-        type: 'u',
-        coade: req.session.user
+    var blog = blogModel.find({});
+    blog.limit(8);
+    blog.sort('-created');
+    blog.select('_id title author background created');
+    blog.exec(function(err, data) {
+        var blogs = data;
+        res.render('index/blog', {
+            title: 'Blog',
+            menu: 1,
+            type: 'u',
+            code: req.session.user,
+            recent: blogs
+        });
     });
+
 
 };
 
@@ -186,13 +197,21 @@ module.exports.isUser = {
             next();
         } else {
             //游客
-            res.render('index/blog', {
-                title: 'Blog',
-                menu: 1,
-                type: 'c',
-                code: req.cookies.ip
-            })
+            var blog = blogModel.find({});
+            blog.limit(8);
+            blog.sort('-created');
+            blog.select('_id title author background created');
+            blog.exec(function(err, data) {
+                res.render('index/blog', {
+                    title: 'Blog',
+                    menu: 1,
+                    type: 'c',
+                    code: req.cookies.ip,
+                    recent: data
+                });
+            });
         }
+
     },
     portfolio: function(req, res, next) {
         if (req.session.user) {

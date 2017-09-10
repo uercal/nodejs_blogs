@@ -82,9 +82,6 @@ module.exports.getDetail = function(req, res, next) {
 
 
 
-
-
-
 //上传背景图片等接口
 module.exports.upload_pic = function(req, res, next) {
 
