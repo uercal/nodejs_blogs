@@ -20,11 +20,18 @@ module.exports.isIpSaved = function(req, res, next) {
 
 //主页
 module.exports.Index = function(req, res, next) {
-    res.render('index/index', {
-        title: 'Index',
-        menu: 0,
-        type: 'u',
-        code: req.session.user
+    var blog = blogModel.find({});
+    blog.limit(4);
+    blog.sort('-created');
+    blog.select('_id title author background created');
+    blog.exec(function(err, data) {
+        res.render('index/index', {
+            title: 'Index',
+            menu: 0,
+            type: 'u',
+            code: req.session.user,
+            recent: data
+        })
     })
 
 }
@@ -182,12 +189,19 @@ module.exports.isUser = {
             //用户        
             next();
         } else {
-            //游客                          
-            res.render('index/index', {
-                title: 'Index',
-                menu: 0,
-                type: 'c',
-                code: req.cookies.ip
+            //游客
+            var blog = blogModel.find({});
+            blog.limit(4);
+            blog.sort('-created');
+            blog.select('_id title author background created');
+            blog.exec(function(err, data) {
+                res.render('index/index', {
+                    title: 'Index',
+                    menu: 0,
+                    type: 'c',
+                    code: req.cookies.ip,
+                    recent: data
+                })
             })
         }
     },
@@ -250,7 +264,7 @@ module.exports.LoginYes = function(req, res, next) {
     if (req.session.user) {
         next();
     } else {
-
+        res.redirect('/');
     }
 };
 

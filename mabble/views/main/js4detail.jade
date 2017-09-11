@@ -12,3 +12,18 @@ script(src='/js/jquery.stellar.min.js')
 script(src='/js/main2.js')
 // Lay
 script(src='/layer/layer.js')
+
+script.
+  $('#leave').on('click',function(){
+     layer.msg('123');
+  })
+  $('#show').on('click',function(){
+    layer.open({
+      type: 2,
+      title: 'Show Message',
+      maxmin: false,
+      shadeClose: true, //点击遮罩关闭层
+      area : ['550px' , '520px'],
+      content: '/main/showMessage'
+      });
+  })

@@ -47,9 +47,12 @@ script.
         console.log(data);
         $.post('/main/addBlog',data,function(res){
             if(res.state){
-                window.location.href = '/main';
+                var index = parent.layer.getFrameIndex(window.name);               
+                    parent.$("#handle_status").val('1');
+                    parent.layer.msg('ok');                    
+                    parent.layer.close(index);
             }else{
-
+                alert('错误');
             }
         })
     });

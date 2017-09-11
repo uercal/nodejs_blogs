@@ -4,12 +4,13 @@ var blogModel = require('../model/blog');
 //保存上传文件
 var fs = require('fs');
 
+
 //获取当前作者的blog
 module.exports.getData = function(req, res, next) {
     var author = req.session.user;
     var query = blogModel.find({});
     query.where('author', author);
-
+    query.sort('-created');
     query.exec(function(err, data) {
         if (err) {
             console.log(err)

@@ -12,7 +12,7 @@ include ./layout.jade
 			br
 			ul
 				li
-					a(href='/main/add' title='Add' id="add")
+					a#add(href='javascript:;' title='Add')
 						i.icon-plus
 		.featured
 			span admin
@@ -23,18 +23,43 @@ include ./layout.jade
 	.fh5co-post
 		- var blogs = data
 		each val,index in blogs
-			.fh5co-entry.padding
-				img(src='images/project-1.jpg', title='Free HTML5 Bootstrap Template by FreeHTML5.co')
+			.fh5co-entry.padding(style='background-image: url("#{val.background}");opacity: 0.4;', data-stellar-background-ratio='0.1')
+				//- img(src='images/project-1.jpg', title='Free HTML5 Bootstrap Template by FreeHTML5.co')
 				div
-					span.fh5co-post-date #{val.created}
+					a.fh5co-post-date #{val.created}
 					h2
-						a(href='/main/detail/#{val._id}') #{val.title}
+						a(href='main/detail/#{val._id}') #{val.title}
 					p
 		footer
 			div
+				input#handle_status(value='', hidden='hidden')
 
 .gototop.js-top
 	a.js-gotop(href='#')
 		i.icon-arrow-up
 
+
 include ./js.jade
+script.
+	$('div .padding').mouseover(function(){
+		$(this).css('opacity',0.8);		
+	})
+	$('div .padding').mouseout(function(){
+		$(this).css('opacity',0.4);		
+	})
+	$('#add').on('click',function(){		
+			layer.open({
+				type: 2,
+				title: 'Add Blog',
+				maxmin: false,
+				shadeClose: true, //点击遮罩关闭层
+				area : ['550px' , '520px'],
+				content: 'main/add',
+				end:function(){
+					var status = $('#handle_status').val();
+					if(status=='1'){
+						window.location.reload();
+					}
+				}
+			});
+	})
