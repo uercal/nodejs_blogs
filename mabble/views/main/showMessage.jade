@@ -13,25 +13,27 @@ head
   //  end
   //  begin
   .comment-show
-    .comment-show-con.clearfix
-      .comment-show-con-img.pull-left
-        img(src='images/header-img-comment_03.png', alt='')
-      .comment-show-con-list.pull-left.clearfix
-        .pl-text.clearfix
-          a.comment-size-name(href='#') &#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD; : 
-          span.my-pl-con &nbsp;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD; &#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;&#xFFFD;!
-        .date-dz
-          span.date-dz-left.pull-left.comment-time 2017-5-2 11:11:39
-          .date-dz-right.pull-right.comment-pl-block
-            a.removeBlock(href='javascript:;') 删除
-            a.date-dz-pl.pl-hf.hf-con-block.pull-left(href='javascript:;') 回复
-            span.pull-left.date-dz-line |
-            a.date-dz-z.pull-left(href='javascript:;')
-              i.date-dz-z-click-red
-              span 赞(
-              i.z-num 666
-              span )
-        .hf-list-con
+    -var comment = data
+    each val,index in comment
+        .comment-show-con.clearfix
+            .comment-show-con-img.pull-left
+                img(src='/images/header-img-comment_03.png', alt='')
+            .comment-show-con-list.pull-left.clearfix
+                .pl-text.clearfix
+                    a.comment-size-name(href='#') #{val.name} : 
+                    span.my-pl-con #{val.content}
+                .date-dz
+                    span.date-dz-left.pull-left.comment-time #{val.time}
+                    .date-dz-right.pull-right.comment-pl-block
+                        a.removeBlock(href='javascript:;') 删除
+                        a.date-dz-pl.pl-hf.hf-con-block.pull-left(href='javascript:;') 回复
+                        span.pull-left.date-dz-line |
+                        a.date-dz-z.pull-left(href='javascript:;')
+                            i.date-dz-z-click-red
+                            span 赞(
+                            i.z-num 666
+                            span )
+                .hf-list-con
   //  end
 script(type='text/javascript', src='/js/jquery.min.js')
 script(type='text/javascript', src='/js/jquery.flexText.js')
@@ -64,13 +66,12 @@ script.
       var now=year+'-'+month+"-"+date+" "+h+':'+m+":"+s;
       //获取输入内容
       var oSize = $(this).siblings('.flex-text-wrap').find('.comment-input').val();
-      console.log(oSize);
-      //动态创建评论模块
-      oHtml = '<div class="comment-show-con clearfix"><div class="comment-show-con-img pull-left"><img src="images/header-img-comment_03.png" alt=""></div> <div class="comment-show-con-list pull-left clearfix"><div class="pl-text clearfix"> <a href="#" class="comment-size-name">David Beckham : </a> <span class="my-pl-con">&nbsp;'+ oSize +'</span> </div> <div class="date-dz"> <span class="date-dz-left pull-left comment-time">'+now+'</span> <div class="date-dz-right pull-right comment-pl-block"><a href="javascript:;" class="removeBlock">删除</a> <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a> <span class="pull-left date-dz-line">|</span> <a href="javascript:;" class="date-dz-z pull-left"><i class="date-dz-z-click-red"></i>赞 (<i class="z-num">666</i>)</a> </div> </div><div class="hf-list-con"></div></div> </div>';
-      if(oSize.replace(/(^\s*)|(\s*$)/g, "") != ''){
-          $(this).parents('.reviewArea ').siblings('.comment-show').prepend(oHtml);
-          $(this).siblings('.flex-text-wrap').find('.comment-input').prop('value','').siblings('pre').find('span').text('');
-      }
+      console.log(oSize);      
+      $.post('/main/addMessage/#{id}',{name:'#{name}',head:'#{head}',content:oSize},function(res){
+          if(res=='ok'){
+              window.location.reload();
+          }
+      })
   });
 
 //点击回复评论动态生成评论块

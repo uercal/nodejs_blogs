@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var pluginBlog = require('../plugin/blog');
 var pluginUser = require('../plugin/user');
+var pluginComment = require('../plugin/comment');
 //upload
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
@@ -14,9 +15,10 @@ router.get('/add', function(req, res, next) {
     res.render('main/add');
 });
 
-router.get('/showMessage', function(req, res, next) {
-    res.render('main/showMessage');
-});
+
+router.get('/showMessage/:id', pluginComment.showMessage);
+router.post('/addMessage/:id', pluginComment.addMessage);
+
 
 router.get('/detail/:id', pluginBlog.getDetail);
 

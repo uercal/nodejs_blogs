@@ -1,13 +1,36 @@
 var mongoose = require('mongoose');
 
-var userSchema = new mongoose.Schema({
+var replySchema = new mongoose.Schema({
+    name: String,
+    content: String,
+    time: String,
+    reply: [this],
+    pv: {
+        type: Number,
+        default: 0
+    }
+});
+
+var commentSchema = new mongoose.Schema({
+    name: String,
+    head: String,
+    content: String,
+    time: String,
+    reply: [replySchema],
+    pv: {
+        type: Number,
+        default: 0
+    }
+});
+
+var blogSchema = new mongoose.Schema({
     title: String,
     content: String,
     author: String,
     background: String,
-    comments: Array,
+    comments: [commentSchema],
     created: Date
 });
 
 
-module.exports = mongoose.model('blog', userSchema);
+module.exports = mongoose.model('blog', blogSchema);
