@@ -13,15 +13,11 @@ script.
     if($('#ip').html()!=''){
       console.log($('#ip').html());
     }else{
-      $.get('https://api.ipify.org?format=json')
-            .done(function (data) {
-              //- swal(data.ip);
-              $.post('/saveIp',{ip:data.ip},function(res){
-                if(res=='ok'){
-                  $('#ip').html(data.ip);
-                }
-              });              
-            });
+      $.get('/getIp',{},function(res){
+        $('#ip').html(res);
+        $.post('/saveIp',{ip:res},function(res){    
+        });
+      })
     };
   });
 

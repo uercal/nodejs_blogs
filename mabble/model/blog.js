@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 
 var replySchema = new mongoose.Schema({
-    name: String,
+    user: String,
+    touser: String,
     content: String,
     time: String,
-    reply: [this],
     pv: {
         type: Number,
         default: 0

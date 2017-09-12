@@ -271,9 +271,21 @@ module.exports.LoginYes = function(req, res, next) {
 
 //未登录
 module.exports.loginNo = function(req, res, next) {
-    if (!req.session.user) {
+    if (req.cookies.ip) {
         next();
     } else {
-
+        res.redirect('/');
     }
+};
+
+module.exports.getIp = function(req, res, next) {
+    var ip = req.headers['x-forwarded-for'] ||
+        req.ip ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        req.connection.socket.remoteAddress || '';
+    if (ip.split(',').length > 0) {
+        ip = ip.split(',')[0]
+    }
+    res.send(ip);
 };

@@ -73,6 +73,7 @@ module.exports.getDetail = function(req, res, next) {
             return;
         }
         res.render('main/detail', {
+            id: id,
             blog: data
         });
     })

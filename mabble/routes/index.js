@@ -45,4 +45,7 @@ router.post('/saveIp', function(req, res, next) {
     res.send('ok');
 });
 
+router.get('/getIp', pluginUser.getIp);
+
+
 module.exports = router;

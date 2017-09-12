@@ -18,8 +18,9 @@ router.get('/add', function(req, res, next) {
 
 router.get('/showMessage/:id', pluginComment.showMessage);
 router.post('/addMessage/:id', pluginComment.addMessage);
+router.post('/addReply/:id', pluginComment.replyMessage);
 
-
+router.get('/detail/:id', pluginUser.loginNo);
 router.get('/detail/:id', pluginBlog.getDetail);
 
 router.post('/upload_pic', multipartMiddleware, pluginBlog.upload_pic);
