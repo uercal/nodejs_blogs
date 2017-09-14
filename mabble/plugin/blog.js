@@ -65,6 +65,11 @@ module.exports.postBlog = function(req, res, next) {
 
 module.exports.getDetail = function(req, res, next) {
     var id = req.params.id;
+    if (req.session.user) {
+        var name = req.session.user;
+    } else {
+        var name = req.cookies.ip;
+    }
     blogModel.findOne({
         _id: id
     }, function(err, data) {
@@ -74,6 +79,7 @@ module.exports.getDetail = function(req, res, next) {
         }
         res.render('main/detail', {
             id: id,
+            name: name,
             blog: data
         });
     })

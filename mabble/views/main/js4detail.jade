@@ -15,7 +15,18 @@ script(src='/layer/layer.js')
 
 script.
   $('#leave').on('click',function(){
-     layer.msg('123');
+     layer.prompt({title: '输入你的留言，并确认', formType: 2}, function(text, index){
+      $.post('/main/addMessage/#{id}',{name:'#{name}',head:'head',content:text},function(res){
+        if(res=='ok'){
+          var ii = layer.load();
+          //此处用setTimeout演示ajax的回调
+          setTimeout(function(){
+            layer.close(ii);
+            window.location.reload();
+          }, 1000);      
+        }
+      });
+    })
   })
   $('#show').on('click',function(){
     layer.open({
