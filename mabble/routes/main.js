@@ -15,6 +15,9 @@ router.get('/add', function(req, res, next) {
     res.render('main/add');
 });
 
+router.get('/changeInfoPic', function(req, res, next) {
+    res.render('main/change');
+})
 
 router.get('/showMessage/:id', pluginComment.showMessage);
 router.post('/addMessage/:id', pluginComment.addMessage);
@@ -26,5 +29,7 @@ router.get('/detail/:id', pluginBlog.getDetail);
 router.post('/upload_pic', multipartMiddleware, pluginBlog.upload_pic);
 
 router.post('/addBlog', pluginBlog.postBlog);
+
+router.post('/changeBack', pluginUser.changeBack);
 
 module.exports = router;

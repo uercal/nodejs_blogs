@@ -1,8 +1,21 @@
 include ./layout.jade
 
+style.
+	.options {
+			position:relative;
+			left:25px;
+			transition: all .4s linear;
+			/*display: block;*/
+	}
+	
+	.hidden {
+			/*display: none;*/
+			opacity: 0;
+	}
+
 .fh5co-loader
 #page
-	#fh5co-aside(style='background-image: url(/images/image_1.jpg)')
+	#fh5co-aside(style='background-image: url("#{userback}")')
 		.overlay
 		nav(role='navigation')
 			ul
@@ -12,11 +25,21 @@ include ./layout.jade
 			br
 			ul
 				li
+					a#option(href='javascript:;' title='Setting')
+						i.icon-settings
+				.options.hidden
+					li
+						a#change(href="javascript:;" title='Change')切换
+					li
+						a#delBlog(href="javascript:;" title='Del')删除			
+			br
+			ul
+				li
 					a#add(href='javascript:;' title='Add')
 						i.icon-plus
 		.featured
 			span admin
-			h2 Uercal
+			h2 #{user}
 
 
 #fh5co-main-content
@@ -47,19 +70,46 @@ script.
 	$('div .padding').mouseout(function(){
 		$(this).css('opacity',0.4);		
 	})
+	//option's display
+	$('#option').on('click',function(){
+		var options = $('.options');
+		if(options.hasClass('hidden')){
+			options.removeClass('hidden');
+		}else{
+			options.addClass('hidden');
+		}
+	})
+	//add blog
 	$('#add').on('click',function(){		
-			layer.open({
-				type: 2,
-				title: 'Add Blog',
-				maxmin: false,
-				shadeClose: true, //点击遮罩关闭层
-				area : ['550px' , '520px'],
-				content: 'main/add',
-				end:function(){
-					var status = $('#handle_status').val();
-					if(status=='1'){
-						window.location.reload();
-					}
+		layer.open({
+			type: 2,//输出html类型
+			title: 'Add Blog',
+			maxmin: false,
+			shadeClose: true, //点击遮罩关闭层
+			area : ['550px' , '520px'],
+			content: 'main/add',
+			end:function(){
+				var status = $('#handle_status').val();
+				if(status=='1'){
+					window.location.reload();
 				}
-			});
+			}
+		});
+	});
+	//change background
+	$('#change').on('click',function(){
+		layer.open({
+			type: 2,
+			title: 'Change BackGround',
+			maxmin: false,
+			shadeClose: true, //点击遮罩关闭层
+			area : ['550px' , '520px'],
+			content: 'main/changeInfoPic',
+			end:function(){
+				var status = $('#handle_status').val();
+				if(status=='1'){
+					window.location.reload();
+				}
+			}
+		});
 	})

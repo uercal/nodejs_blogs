@@ -9,12 +9,8 @@ script(src='../js/jquery.min.js')
 script(src='../layui/layui.js')
 button#test1.layui-btn(type='button')
     i.layui-icon &#xE67C;上传背景
-form#form(action="/main/addBlog" method="post" onsubmit="return false")
-    img#back(src="",style="width:200px;",path="")
-    br
-    input(type="text" name="title" placeholder="title")
-    br
-    textarea#content(name="content", cols="30", rows="10" placeholder="content")
+form#form(action="/main/changeBack" method="post" onsubmit="return false")
+    img#back(src="",style="width:200px;",path="")    
     br
     input#sub(type="submit")
 script.
@@ -36,15 +32,8 @@ script.
     });
     });
 
-    $('#sub').on('click',function(){
-        var data = $('#form').serializeArray();
-        var img = {
-            name:"background",
-            value:$('#back').attr('path')
-        };
-        data.unshift(img);
-        console.log(data);
-        $.post('/main/addBlog',data,function(res){
+    $('#sub').on('click',function(){                        
+        $.post('/main/changeBack',{background:$('#back').attr('path')},function(res){
             if(res.state){
                 var index = parent.layer.getFrameIndex(window.name);               
                     parent.$("#handle_status").val('1');

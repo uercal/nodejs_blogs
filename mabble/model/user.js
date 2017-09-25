@@ -7,6 +7,8 @@ var userSchema = new mongoose.Schema({
     },
     salt: String,
     hashword: String,
+    head: String,
+    background: String,
     created: Date
 });
 

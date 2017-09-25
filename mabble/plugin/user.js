@@ -7,6 +7,8 @@ var pluginBlog = require('./blog');
 var utility = require('utility');
 //加载生成随机模块
 var uuid = require('node-uuid');
+//fs模块
+var fs = require('fs');
 
 //游客模式 下是否已获取客户端ip [游客评论时候必用！！！]
 module.exports.isIpSaved = function(req, res, next) {
@@ -289,3 +291,35 @@ module.exports.getIp = function(req, res, next) {
     }
     res.send(ip);
 };
+
+
+
+//更改背景
+module.exports.changeBack = function(req, res, next) {
+    var user = req.session.user;
+    var uploadedPath = req.body.background;
+    //唯一背景图命名
+    var dstPath = './public/user_back/' + user + '.jpg';
+    // console.log(dstPath);
+    //重命名为真实文件名
+    fs.rename(uploadedPath, dstPath, function(err) {
+        if (err) {
+            console.log('rename error: ' + err);
+        } else {
+            console.log('rename ok');
+        }
+    });
+    var resJson = {
+        state: false,
+        msg: ''
+    };
+    modelUser.update({ username: user }, { $set: { "background": dstPath.substring(8) } }, function(err) {
+        if (err) {
+            resJson.msg = err;
+            res.send(resJson);
+        }
+        resJson.state = true;
+        resJson.msg = 'ok';
+        res.send(resJson);
+    });
+}

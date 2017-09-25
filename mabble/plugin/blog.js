@@ -1,5 +1,6 @@
 // 加载模型
 var blogModel = require('../model/blog');
+var userModel = require('../model/user');
 //加载插件
 //保存上传文件
 var fs = require('fs');
@@ -8,6 +9,16 @@ var fs = require('fs');
 //获取当前作者的blog
 module.exports.getData = function(req, res, next) {
     var author = req.session.user;
+    //获取用户设置背景
+    var back = '';
+    userModel.findOne({ username: author }, function(err, data) {
+        if (err) {
+            console.log(err);
+        }
+        back = data.background;
+    });
+
+    //读取博客数据
     var query = blogModel.find({});
     query.where('author', author);
     query.sort('-created');
@@ -17,7 +28,9 @@ module.exports.getData = function(req, res, next) {
             return;
         }
         res.render('main/info', {
-            data: data
+            data: data,
+            user: req.session.user,
+            userback: back
         });
     })
 }
