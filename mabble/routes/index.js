@@ -2,12 +2,23 @@ var express = require('express');
 var router = express.Router();
 var pluginUser = require('../plugin/user');
 var pluginBlog = require('../plugin/blog');
-
+var pluginOther = require('../plugin/other');
+//muti模块
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 
 /* GET home page. */
 
 router.get('/', pluginUser.isUser.index);
 router.get('/', pluginUser.Index);
+
+
+//头像
+router.get('/changeHead', function(req, res, next) {
+    res.render('index/head');
+});
+router.post('/changeHead', multipartMiddleware, pluginOther.changeHead);
+
 
 
 // router.get('/blog', pluginBlog.getRencet);

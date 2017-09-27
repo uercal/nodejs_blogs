@@ -121,4 +121,22 @@ script.
       }
     }});
   });
+
+  $('#person').on('click',function(){
+    layer.open({
+      type: 2,
+      title:'',
+      shadeClose: true,
+      move: false,      
+      shade: 0.8,
+      area: ['1000px', '90%'],      
+      content: ['/changeHead','no'], //iframe的url
+      end:function(){
+        var status = $('#handle_status').val();
+        if(status=='1'){
+          window.location.reload();
+        }
+      }
+    });
+  })
   

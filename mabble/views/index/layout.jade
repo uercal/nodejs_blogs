@@ -37,6 +37,7 @@ head
 	link(rel='stylesheet', href='flavr/css/animate.css')
 	link(rel='stylesheet', href='flavr/css/flavr.css')
 	script(src='flavr/js/jquery.min.js')
+	script(src='layer/layer.js')
 	script(src='flavr/js/flavr.min.js')
 	// Modernizr JS
 	script(src='js/modernizr-2.6.2.min.js')
@@ -49,6 +50,7 @@ head
 		height: 85px;
 		margin-bottom: 20px;
 		border-radius: 50%;
+		cursor:hand;
 		}
 		.icon-user{
 			font-size:200%;
@@ -114,6 +116,8 @@ head
 						li.fh5co-active
 							a(href='/about') About										
 		.fh5co-footer
+			div
+				input#handle_status(value='', hidden='hidden')
 			- var user = type
 			case user
 				when 'c'
@@ -127,7 +131,7 @@ head
 							a#regist(href='javascript:;' title='reg')
 								i.icon-user-add
 				when 'u'
-					img#person(src='images/img-2.jpg' title='admin')
+					img#person(src='#{head}' title='admin')
 					ul
 						li
 							a(href='/main' title='info')

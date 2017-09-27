@@ -32,7 +32,8 @@ module.exports.Index = function(req, res, next) {
             menu: 0,
             type: 'u',
             code: req.session.user,
-            recent: data
+            recent: data,
+            head: req.session.head
         })
     })
 
@@ -52,7 +53,8 @@ module.exports.Blog = function(req, res, next) {
             menu: 1,
             type: 'u',
             code: req.session.user,
-            recent: blogs
+            recent: blogs,
+            head: req.session.head
         });
     });
 
@@ -66,7 +68,8 @@ module.exports.Portfolio = function(req, res, next) {
         title: 'Portfolio',
         menu: 2,
         type: 'u',
-        coade: req.session.user
+        code: req.session.user,
+        head: req.session.head
     });
 }
 
@@ -77,7 +80,8 @@ module.exports.About = function(req, res, next) {
         title: 'About',
         menu: 3,
         type: 'u',
-        coade: req.session.user
+        code: req.session.user,
+        head: req.session.head
     });
 }
 
@@ -158,6 +162,7 @@ module.exports.Login = function(req, res, next) {
             if (hashword == _hashword) {
                 //密码匹配
                 req.session.user = username;
+                req.session.head = data.head;
                 resJson.msg = '登录成功';
                 resJson.state = true;
                 res.send(resJson);
@@ -173,14 +178,6 @@ module.exports.Login = function(req, res, next) {
     })
 
 }
-
-
-
-
-
-
-
-
 
 
 
