@@ -1,7 +1,7 @@
 //加载模型
 var modelUser = require('../model/user');
 //裁剪模块
-var gm = require('gm');
+var gm = require('gm').subClass({ imageMagick: true });
 //保存上传文件
 var fs = require('fs');
 //
@@ -22,12 +22,10 @@ module.exports.changeHead = function(req, res, next) {
     //裁剪模块
     // gm(uploadedPath).crop(width, height, x, y)
     gm(uploadedPath).crop(infos.width, infos.height, infos.x, infos.y).write(dstPath, function(err) {
-        if (err) console.log(err);
+        if (!err) { console.log('crop ok') };
     });
-
     modelUser.update({ username: user }, { $set: { "head": dstPath.substring(8) } }, function(err) {
         if (err) console.log(err);
     })
     res.send('ok');
-
-};
+}

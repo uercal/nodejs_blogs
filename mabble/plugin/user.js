@@ -98,6 +98,7 @@ module.exports.Regist = function(req, res, next) {
         username: username,
         salt: salt,
         hashword: utility.sha1(password + salt),
+        head: '/user_head/' + username + '.jpg',
         created: Date.now()
     };
     //
@@ -129,7 +130,7 @@ module.exports.Regist = function(req, res, next) {
                     resJson.msg = '注册成功';
                     resJson.state = true;
                     //
-                    req.session.user = username;
+                    // req.session.user = username;
                     res.send(resJson);
                 }
             });
